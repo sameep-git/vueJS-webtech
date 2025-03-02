@@ -14,11 +14,11 @@
             <div class="item-actions">
               <div class="quantity-selector">
                 <button class="quantity-change-button" @click="decreaseOne(shoppingCartItems[0].id)">−</button>
-                <input 
-                type="text" 
-                class="quantity-input" 
-                :value="shoppingCartItems[0].quantity" 
-                aria-label="quantity" 
+                <input
+                type="text"
+                class="quantity-input"
+                v-model.number="shoppingCartItems[0].quantity"
+                aria-label="quantity"
                 @blur="changeQuantity(shoppingCartItems[0].id, $event)">
                 <button class="quantity-change-button" @click="increaseOne(shoppingCartItems[0].id)">+</button>
               </div>
@@ -194,13 +194,6 @@ function increaseOne(id) {
   })
 }
 
-function changeQuantity(id, event) {
-  shoppingCartItems.value.some(item => {
-    if (item.id == id) {
-      item.quantity = parseInt(event.target.value)
-    }
-  })
-}
 </script>
 
 <style lang="scss" scoped>
