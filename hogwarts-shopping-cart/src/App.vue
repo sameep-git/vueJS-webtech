@@ -3,105 +3,35 @@
     <h1>{{ username }}'s Shopping Cart</h1>
     <div class="cart-container">
       <div class="cart-list">
-        <div class="cart-list-item">
-          <img :src="shoppingCartItems[0].image" :alt="shoppingCartItems[0].productName" class="product-image">
+        <div 
+        v-for="item in shoppingCartItems" 
+        class="cart-list-item"
+        :key="item.id"
+        >
+          <img :src="item.image" :alt="item.productName" class="product-image">
           <div class="item-details-with-actions">
             <div class="item-details">
-              <h2>{{ shoppingCartItems[0].productName }}</h2>
-              <p class="price">${{ shoppingCartItems[0].price }}</p>
-              <p class="in-stock-status"> <i class="fa-solid fa-check"></i> In stock</p>
+              <h2>{{ item.productName }}</h2>
+              <p class="price">${{ item.price }}</p>
+              <p class="in-stock-status" v-if="item.isInStock">
+                <i class="fa-solid fa-check"></i> In stock
+              </p>
+              <p class="on-backorder-status" v-else>
+                <i class="fa-solid fa-hourglass-half"></i> On backorder
+              </p>
             </div>
             <div class="item-actions">
               <div class="quantity-selector">
-                <button class="quantity-change-button" @click="decreaseOne(shoppingCartItems[0].id)">−</button>
+                <button class="quantity-change-button" @click="decreaseOne(item.id)">−</button>
                 <input
                 type="text"
                 class="quantity-input"
-                v-model.number="shoppingCartItems[0].quantity"
+                v-model.number="item.quantity"
                 aria-label="quantity"
-                @blur="changeQuantity(shoppingCartItems[0].id, $event)">
-                <button class="quantity-change-button" @click="increaseOne(shoppingCartItems[0].id)">+</button>
+                @blur="changeQuantity(item.id, $event)">
+                <button class="quantity-change-button" @click="increaseOne(item.id)">+</button>
               </div>
-              <button class="remove-item">✕</button>
-            </div>
-          </div>
-        </div>
-        <div class="cart-list-item">
-          <img :src="shoppingCartItems[1].image" :alt="shoppingCartItems[1].productName" class="product-image">
-          <div class="item-details-with-actions">
-            <div class="item-details">
-              <h2>{{ shoppingCartItems[1].productName }}</h2>
-              <p class="price">${{ shoppingCartItems[1].price }}</p>
-              <p class="in-stock-status" v-if="shoppingCartItems[1].isInStock">
-                <i class="fa-solid fa-check"></i> 
-                In stock
-              </p>
-              <p class="on-backorder-status" v-else>
-                <i class="fa-solid fa-hourglass-half"></i> 
-                On backorder
-              </p>
-            </div>
-            <div class="item-actions">
-              <div class="quantity-selector">
-                <button class="quantity-change-button">−</button>
-                <input type="text" class="quantity-input" :value="shoppingCartItems[1].quantity" aria-label="quantity">
-                <button class="quantity-change-button">+</button>
-              </div>
-              <button class="remove-item">✕</button>
-            </div>
-          </div>
-        </div>
-        <div class="cart-list-item">
-          <img :src="shoppingCartItems[2].image" :alt="shoppingCartItems[2].productName" class="product-image">
-          <div class="item-details-with-actions">
-            <div class="item-details">
-              <h2>{{ shoppingCartItems[2].productName }}</h2>
-              <p class="price">${{ shoppingCartItems[2].price }}</p>
-              <p class="on-backorder-status"> <i class="fa-solid fa-hourglass-half"></i> On backorder</p>
-            </div>
-            <div class="item-actions">
-              <div class="quantity-selector">
-                <button class="quantity-change-button">−</button>
-                <input type="text" class="quantity-input" :value="shoppingCartItems[2].quantity" aria-label="quantity">
-                <button class="quantity-change-button">+</button>
-              </div>
-              <button class="remove-item">✕</button>
-            </div>
-          </div>
-        </div>
-        <div class="cart-list-item">
-          <<img :src="shoppingCartItems[3].image" :alt="shoppingCartItems[3].productName" class="product-image">
-          <div class="item-details-with-actions">
-            <div class="item-details">
-              <h2>{{ shoppingCartItems[3].productName }}</h2>
-              <p class="price">${{ shoppingCartItems[3].price }}</p>
-              <p class="in-stock-status"> <i class="fa-solid fa-check"></i> In stock</p>
-            </div>
-            <div class="item-actions">
-              <div class="quantity-selector">
-                <button class="quantity-change-button">−</button>
-                <input type="text" class="quantity-input" :value="shoppingCartItems[3].quantity" aria-label="quantity">
-                <button class="quantity-change-button">+</button>
-              </div>
-              <button class="remove-item">✕</button>
-            </div>
-          </div>
-        </div>
-        <div class="cart-list-item">
-          <img :src="shoppingCartItems[4].image" :alt="shoppingCartItems[4].productName" class="product-image">
-          <div class="item-details-with-actions">
-            <div class="item-details">
-              <h2>{{ shoppingCartItems[4].productName }}</h2>
-              <p class="price">${{ shoppingCartItems[4].price }}</p>
-              <p class="in-stock-status"> <i class="fa-solid fa-check"></i> In stock</p>
-            </div>
-            <div class="item-actions">
-              <div class="quantity-selector">
-                <button class="quantity-change-button">−</button>
-                <input type="text" class="quantity-input" :value="shoppingCartItems[4].quantity" aria-label="quantity">
-                <button class="quantity-change-button">+</button>
-              </div>
-              <button class="remove-item">✕</button>
+              <button @click="removeItem(item.id)" class="remove-item">✕</button>
             </div>
           </div>
         </div>
@@ -199,6 +129,14 @@ function increaseOne(id) {
       item.quantity = item.quantity + 1
     }
   })
+}
+
+function removeItem(id) {
+  let index = shoppingCartItems.value.findIndex(item => {
+    return item.id == id;
+  });
+
+  shoppingCartItems.value.splice(index, 1);
 }
 
 </script>
