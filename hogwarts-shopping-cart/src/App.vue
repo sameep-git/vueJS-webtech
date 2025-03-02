@@ -32,7 +32,14 @@
             <div class="item-details">
               <h2>{{ shoppingCartItems[1].productName }}</h2>
               <p class="price">${{ shoppingCartItems[1].price }}</p>
-              <p class="in-stock-status"> <i class="fa-solid fa-check"></i> In stock</p>
+              <p class="in-stock-status" v-if="shoppingCartItems[1].isInStock">
+                <i class="fa-solid fa-check"></i> 
+                In stock
+              </p>
+              <p class="on-backorder-status" v-else>
+                <i class="fa-solid fa-hourglass-half"></i> 
+                On backorder
+              </p>
             </div>
             <div class="item-actions">
               <div class="quantity-selector">
