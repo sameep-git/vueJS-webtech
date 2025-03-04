@@ -44,7 +44,7 @@
         <div :class="{'hide-order-details': hideDetails}">
           <div class="summary-item">
             <span>Subtotal</span>
-            <span>$13900</span>
+            <span>${{ subtotal }}</span>
           </div>
           <div class="summary-item">
             <span>Shipping estimate</span>
@@ -67,7 +67,7 @@
 
 <script setup>
 
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 
 let username = 'Harry';
 
@@ -138,6 +138,8 @@ function removeItem(id) {
 
   shoppingCartItems.value.splice(index, 1);
 }
+
+let subtotal = computed(()=> shoppingCartItems.value.reduce((acc, item) => acc + item.price * item.quantity, 0))
 
 </script>
 
