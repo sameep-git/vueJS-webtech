@@ -1,16 +1,17 @@
 <template>
     <div class="cart-list-item">
-        <img src="@/assets/img/DragonLiver.png" alt="Dragon Liver" class="product-image">
+        <img :src="item.image" :alt="item.productName" class="product-image">
         <div class="item-details-with-actions">
             <div class="item-details">
-                <h2>Dragon Liver</h2>
-                <p class="price">$1500</p>
-                <p class="in-stock-status"> <i class="fa-solid fa-check"></i> In stock</p>
+                <h2>{{ item.productName }}</h2>
+                <p class="price">${{ item.price }}</p>
+                <p class="in-stock-status" v-if="item.isInStock"><i class="fa-solid fa-check"></i> In stock</p>
+                <p class="on-backorder-status" v-else><i class="fa-solid fa-hourglass-half"></i> On Backorder</p>
             </div>
             <div class="item-actions">
                 <div class="quantity-selector">
                     <button class="quantity-change-button">−</button>
-                    <input type="text" class="quantity-input" value="3" aria-label="quantity">
+                    <input type="text" class="quantity-input" :value="item.quantity" aria-label="quantity">
                     <button class="quantity-change-button">+</button>
                 </div>
                 <button class="remove-item">✕</button>
@@ -20,6 +21,8 @@
   </template>
   
   <script setup>
+
+  defineProps(['item'])
   </script>
   
   <style scoped>
