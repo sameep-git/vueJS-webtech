@@ -1,14 +1,21 @@
 <template>
-  <AlertBox></AlertBox>
-  <AlertBox>Invalid Username or password. Please try again!</AlertBox>
-  <AlertBox>
-    <h1>The request timed out. Please refresh the page and try again.</h1>
-  </AlertBox>
+  <BaseLayout>
+  <template #header>
+    <h1>Here might be a page title.</h1>
+  </template>
+  <!-- Anything without a template will be default or we can give it the #default title -->
+  <template #default>
+    <p>A paragraph of the main content.</p>
+    <p>And another one.</p>
+  </template>
+  <template #footer>
+    <p>Here's some contact info.</p>
+  </template>
+  </BaseLayout>
 </template>
 
 <script setup>
-import AlertBox from './AlertBox.vue';
-
+import BaseLayout from './BaseLayout.vue';
 </script>
 
 <style lang="scss" scoped>
